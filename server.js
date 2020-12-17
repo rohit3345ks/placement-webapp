@@ -1,30 +1,54 @@
 const express=require('express');
-const bodyParser=require('body-parser')
+const bodyParser=require('body-parser');
 const app=express();
-import mongoose from 'mongoose';
+const mongoose=require('mongoose');
+const dotenv=require('dotenv');
+const db=require('./config/db.config');
+dotenv.config();
+
 const cors=require('cors');
-
-var corsOptions={
-    origin: "http://localhost:3000"
-}
-
-mongoose.connect()
-app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
 
+//************************************** */
 
-//Routes
+// Importing Routes
+
+//************************************** */
+const authRoute=require('./routes/auth.routes');
+
+
+
+
+//Allowing Routes access from other domains than origin
+var corsOptions={
+    origin: "http://localhost:3000"
+}
+app.use(cors(corsOptions));
+
+
+
 
 
 
 //************************ */
 
-//View Routes
+//Middlewares
 
 //****************************** */
+app.use('/user',authRoute);
+
+
+//************************ */
+
+//Routes
+
+//****************************** */
+
+
+
 app.get('/',(req,res)=>{
     res.render('home');
 });
@@ -38,25 +62,15 @@ app.get('/signup',(req,res)=>{
     res.render('signup');
 });
 
-// Login Post Route
 
-app.post('/login',(req,res)=>{
-    let usermail=req.body.usermail;
-    let pass=req.body.pass;
-    console.log("login");
-    console.log(usermail,pass);
-    res.render('home');
-});
 
-app.post('/signup',(req,res)=>{
-    let username=req.body.username;
-    let usermail=req.body.usermail;
-    let pass=req.body.pass;
-    console.log('Signup');
-    console.log(username,usermail,pass);
-    res.render('home');
-})
 
+
+//************************************** */
+
+// Server Starting Code
+
+//************************************** */
 
 app.listen(3000,()=>{
     console.log("Server is running at PORT 3000");

@@ -1,0 +1,1 @@
+mongodb+srv://rohit3345ks:<password>@placement-webapp-cluste.symna.mongodb.net/<dbname>?retryWrites=true&w=majority
